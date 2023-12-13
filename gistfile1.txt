@@ -1,0 +1,116 @@
+import 'package:flutter/material.dart';
+
+class LibraryApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Library App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: LoginPage(),
+    );
+  }
+}
+
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  String username = 'Team Library';
+  String password = '123';
+
+  void _login() {
+    // Perform login logic here, such as validating the username and password
+    if (username == 'admin' && password == 'password') {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(),
+        ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Login Failed'),
+            content: Text('Invalid username or password.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Login'),
+      ),
+      body: Container(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              onChanged: (value) {
+                setState(() {
+                  username = value;
+                });
+              },
+              decoration: InputDecoration(
+                labelText: 'Username',
+              ),
+            ),
+            SizedBox(height: 16.0),
+            TextField(
+              onChanged: (value) {
+                setState(() {
+                  password = value;
+                });
+              },
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Password',
+              ),
+            ),
+            SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: _login,
+              child: Text('Login'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Home'),
+      ),
+      body: Center(
+        child: Text('Welcome to the library!'),
+      ),
+    );
+  }
+}
+
+void main() {
+  runApp(LibraryApp());
+}
